@@ -29,5 +29,15 @@
           };
         }
       );
+
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          pybuilds = pkgs.callPackage ./python.nix { };
+        }
+      );
     };
 }
