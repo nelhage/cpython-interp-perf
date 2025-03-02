@@ -52,6 +52,16 @@ let
         }
       )
   );
+  withTailDup = (
+    p:
+    p.overrideAttrs (
+      final: prev: {
+        preConfigure = ''
+          configureFlagsArray+=("OPT=-g -O3 -Wall -mllvm -tail-dup-pred-size=5000")
+        '';
+      }
+    )
+  );
 
   builds = rec {
     inherit src;
@@ -63,6 +73,9 @@ let
     clang18 = withLLVM llvmPackages_18 optLTO;
     clang19 = withLLVM llvmPackages_19 optLTO;
     clang20 = withLLVM llvmPackages_20 optLTO;
+
+    clang19taildup = withTailDup clang19;
+    clang20taildup = withTailDup clang20;
 
     clang19TC = withTC clang19;
     clang20TC = withTC clang20;
