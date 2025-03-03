@@ -36,6 +36,7 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         {
+          llvm = pkgs.callPackage ./llvm.nix { };
           pybuilds = pkgs.callPackage ./python.nix { };
         }
       );
