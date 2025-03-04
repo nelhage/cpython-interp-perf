@@ -86,6 +86,12 @@ let
     clang20TCnozero = clang20TC.overrideAttrs {
       hardeningDisable = [ "zerocallusedregs" ];
     };
+
+    clang19TCskipzero = clang19TC.overrideAttrs {
+      patches = [
+        ./patches/skip-zero.patch
+      ];
+    };
   };
 in
 builds

@@ -1,0 +1,16 @@
+diff --git i/Python/ceval_macros.h w/Python/ceval_macros.h
+index 1bef2b845d0..cddad845fea 100644
+--- i/Python/ceval_macros.h
++++ w/Python/ceval_macros.h
+@@ -77,9 +77,10 @@
+     // Note: [[clang::musttail]] works for GCC 15, but not __attribute__((musttail)) at the moment.
+ #   define Py_MUSTTAIL [[clang::musttail]]
+ #   define Py_PRESERVE_NONE_CC __attribute__((preserve_none))
++#   define Py_SKIP_ZERO_USED_REGS __attribute__((zero_call_used_regs("skip")))
+     Py_PRESERVE_NONE_CC typedef PyObject* (*py_tail_call_funcptr)(TAIL_CALL_PARAMS);
+ 
+-#   define TARGET(op) Py_PRESERVE_NONE_CC PyObject *_TAIL_CALL_##op(TAIL_CALL_PARAMS)
++#   define TARGET(op) Py_PRESERVE_NONE_CC Py_SKIP_ZERO_USED_REGS PyObject *_TAIL_CALL_##op(TAIL_CALL_PARAMS)
+ #   define DISPATCH_GOTO() \
+         do { \
+             Py_MUSTTAIL return (INSTRUCTION_TABLE[opcode])(TAIL_CALL_ARGS); \
