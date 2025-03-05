@@ -9,5 +9,4 @@ base=$(basename "$build")
 
 output="runs/${buildname}-${base}.json"
 mkdir -p runs/
-sudo systemd-run --uid nelhage --gid nelhage --scope --slice=isolated.slice \
-     pyperformance run "$@" -p "${build}/bin/python3" -o "${output}"
+pyperformance run "$@" -p "${build}/bin/python3" -o "${output}"
