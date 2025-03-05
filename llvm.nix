@@ -9,12 +9,15 @@ let
   inherit (lib) recurseIntoAttrs;
 in
 {
-  gh116072 = llvmPackages_19.override {
-    monorepoSrc = fetchFromGitHub {
-      owner = "llvm";
-      repo = "llvm-project";
-      rev = "0d0190815d8f273e9d87c29b4779b81412b31e91";
-      hash = "sha256-Y7XltDeaaEz26zMQZL6curJx9GoN5zPXrTJd0RT8teE=";
-    };
-  };
+  gh114990 = llvmPackages_19.tools.extend (
+    final: prev: {
+      llvm = prev.llvm.overrideAttrs {
+        patches = prev.llvm.patches ++ [
+          ./patches/0001-TailDup-Allow-large-number-of-predecessors-successor.patch
+          ./patches/0002-Add-a-computed-goto-test.patch
+          ./patches/0003-TailDuplicator-Do-not-restrict-the-computed-gotos.patch
+        ];
+      };
+    }
+  );
 }
