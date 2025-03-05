@@ -52,12 +52,21 @@ let
         }
       )
   );
+  noZeroCallUsed = (
+    p:
+    p.overrideAttrs {
+      hardeningDisable = [ "zerocallusedregs" ];
+    }
+  );
   withTailDup = (
     p:
     p.overrideAttrs (
       final: prev: {
         preConfigure = ''
-          configureFlagsArray+=("OPT=-g -O3 -Wall -mllvm -tail-dup-pred-size=5000")
+          configureFlagsArray+=(
+            "OPT=-g -O3 -Wall -mllvm -tail-dup-pred-size=5000"
+            "LDFLAGS=-fuse-ld=lld -Wl,-mllvm -Wl,-tail-dup-pred-size=5000"
+          )
         '';
       }
     )
@@ -74,18 +83,16 @@ let
     clang19 = withLLVM llvmPackages_19 optLTO;
     clang20 = withLLVM llvmPackages_20 optLTO;
 
+    clang18nozero = noZeroCallUsed clang18;
+
     clang19taildup = withTailDup clang19;
     clang20taildup = withTailDup clang20;
 
     clang19TC = withTC clang19;
     clang20TC = withTC clang20;
 
-    clang19TCnozero = clang19TC.overrideAttrs {
-      hardeningDisable = [ "zerocallusedregs" ];
-    };
-    clang20TCnozero = clang20TC.overrideAttrs {
-      hardeningDisable = [ "zerocallusedregs" ];
-    };
+    clang19TCnozero = noZeroCallUsed clang19TC;
+    clang20TCnozero = noZeroCallUsed clang20TC;
 
     clang19TCskipzero = clang19TC.overrideAttrs {
       patches = [
