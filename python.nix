@@ -4,6 +4,7 @@
   runCommand,
   lib,
   python313,
+  openssl,
   llvmPackages_19,
   llvmPackages_20,
   llvmPackages_18,
@@ -19,9 +20,6 @@ let
 
   buildPython =
     { stdenv, python3 }:
-    let
-      deps = python3.buildInputs ++ python3.nativeBuildInputs;
-    in
     stdenv.mkDerivation {
       pname = "python";
       version = "3.14";
@@ -29,6 +27,9 @@ let
       buildInputs = python3.buildInputs;
       nativeBuildInputs = python3.nativeBuildInputs;
       enableParallelBuilding = true;
+      configureFlags = [
+        "--with-openssl=${openssl.dev}"
+      ];
     };
 
   withOpt =
