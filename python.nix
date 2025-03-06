@@ -9,8 +9,20 @@
   llvmPackages_20,
   llvmPackages_18,
   llvm_gh114990,
+
+  stdenv,
+
+  # Flag to make config compatible with an older version of this git
+  # repo, so I can reproduce old resuls more easily. The changes
+  # between this state and the current `main` branch were necessary
+  # for Darwin support to work properly.
+  useCompatConfig ? false,
   ...
 }:
+
+assert lib.assertMsg (
+  useCompatConfig -> !stdenv.isDarwin
+) "Compat config is not compatible with Darwin.";
 let
   src = fetchFromGitHub {
     owner = "python";
@@ -28,9 +40,13 @@ let
       buildInputs = python3.buildInputs;
       nativeBuildInputs = python3.nativeBuildInputs;
       enableParallelBuilding = true;
-      configureFlags = [
-        "--with-openssl=${openssl.dev}"
-      ];
+      configureFlags =
+        if useCompatConfig then
+          [ ]
+        else
+          [
+            "--with-openssl=${openssl.dev}"
+          ];
     };
 
   notLLVM = l: builtins.filter (p: (p.pname or "") != "llvm") l;
@@ -51,9 +67,15 @@ let
       stdenv = llvm.stdenv;
     })).overrideAttrs
       (
-        final: prev: {
-          nativeBuildInputs = [ llvm.bintools ] ++ (notLLVM prev.nativeBuildInputs or [ ]);
-        }
+        final: prev:
+        if useCompatConfig then
+          {
+            buildInputs = prev.buildInputs ++ [ llvm.bintools ];
+          }
+        else
+          {
+            nativeBuildInputs = [ llvm.bintools ] ++ (notLLVM prev.nativeBuildInputs or [ ]);
+          }
       )
   );
   noZeroCallUsed = (
