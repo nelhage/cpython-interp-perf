@@ -29,10 +29,10 @@ These configurations are:
 
 All builds use LTO and PGO.
 
-| Platform       | clang18 | clang19      | clang19.taildup | clang19.tc   | gcc          |
-|----------------|---------|--------------|-----------------|--------------|--------------|
-| x86_64-linux   | (ref)   | 1.09x slower | 1.01x faster    | 1.03x faster | 1.02x faster |
-| aarch64-darwin | (ref)   | 1.12x slower | 1.02x slower    | 1.00x slower | N/A          |
+| Platform             | clang18 | clang19      | clang19.taildup | clang19.tc   | gcc          |
+|----------------------|---------|--------------|-----------------|--------------|--------------|
+| Raptor Lake i5-13500 | (ref)   | 1.09x slower | 1.01x faster    | 1.03x faster | 1.02x faster |
+| Apple M1 Macbook Air | (ref)   | 1.12x slower | 1.02x slower    | 1.00x slower | N/A          |
 
 Based on these results, I conclude that the tail-call interpreter
 represents a small (1-2%) speedup relative to the computed-goto
