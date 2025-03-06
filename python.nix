@@ -32,6 +32,8 @@ let
       ];
     };
 
+  notLLVM = l: builtins.filter (p: (p.pname or "") != "llvm") l;
+
   withOpt =
     opt: p:
     p.overrideAttrs (
@@ -49,7 +51,7 @@ let
     })).overrideAttrs
       (
         final: prev: {
-          buildInputs = prev.buildInputs ++ [ llvm.bintools ];
+          nativeBuildInputs = [ llvm.bintools ] ++ (notLLVM prev.nativeBuildInputs or [ ]);
         }
       )
   );
