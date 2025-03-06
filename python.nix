@@ -94,6 +94,14 @@ let
 
     clang19_gh114990 = withLLVM llvm_gh114990 optLTO;
 
+    clang19asmvolatile = clang19.overrideAttrs (
+      final: prev: {
+        patches = (prev.patches or [ ]) ++ [
+          ./patches/0001-Prevent-the-compiler-from-merging-computed-goto-disp.patch
+        ];
+      }
+    );
+
     clang19TC = withTC clang19;
     clang20TC = withTC clang20;
 
