@@ -35,9 +35,9 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
         in
-        {
+        rec {
           llvm = pkgs.callPackage ./llvm.nix { };
-          pybuilds = pkgs.callPackage ./python.nix { };
+          pybuilds = pkgs.callPackage ./python.nix { llvm_gh114990 = llvm.gh114990; };
         }
       );
     };

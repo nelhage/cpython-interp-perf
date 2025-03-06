@@ -8,6 +8,7 @@
   llvmPackages_19,
   llvmPackages_20,
   llvmPackages_18,
+  llvm_gh114990,
   ...
 }:
 let
@@ -90,6 +91,8 @@ let
 
     clang19taildup = withTailDup clang19;
     clang20taildup = withTailDup clang20;
+
+    clang19_gh114990 = withLLVM llvm_gh114990 optLTO;
 
     clang19TC = withTC clang19;
     clang20TC = withTC clang20;
