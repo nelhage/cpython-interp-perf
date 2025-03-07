@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -eu
+here=$(dirname "$0")
+name=$1
+exec nix build --no-link --print-out-paths ".#pybuilds.$name"
