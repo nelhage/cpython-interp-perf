@@ -11,6 +11,8 @@ read. The mapping (from names in this tree to build names in
 - `clang19`: `clang19`
 - `clang19.taildup`: `clang19taildup`
 - `clang19.tc`: `clang19TCnozero`
+- `clang18.nocg`: `clang18nocg`
+- `clang19.nocg`: `clang19nocg`
 - `gcc`: `optLTO`
 
 [intel]: https://www.intel.com/content/www/us/en/products/sku/230580/intel-core-i513500-processor-24m-cache-up-to-4-80-ghz/specifications.html
