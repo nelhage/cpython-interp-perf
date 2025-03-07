@@ -60,6 +60,7 @@ let
     );
   withTC = withOpt "--with-tail-call-interp";
   withOptimizations = withOpt "--enable-optimizations";
+  withoutCG = withOpt "--without-computed-gotos";
   withLTO = withOpt "--with-lto";
   withLLVM = (
     llvm: p:
@@ -123,6 +124,10 @@ let
         ];
       }
     );
+
+    clang18nocg = withoutCG clang18;
+    clang19nocg = withoutCG clang19;
+    clang20nocg = withoutCG clang20;
 
     clang19TC = withTC clang19;
     clang20TC = withTC clang20;
