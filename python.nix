@@ -106,6 +106,8 @@ let
     optimized = withOptimizations base;
     optLTO = withLTO optimized;
 
+    optLTOnocg = withoutCG optLTO;
+
     clang18 = withLLVM llvmPackages_18 optLTO;
     clang19 = withLLVM llvmPackages_19 optLTO;
     clang20 = withLLVM llvmPackages_20 optLTO;
@@ -128,6 +130,9 @@ let
     clang18nocg = withoutCG clang18;
     clang19nocg = withoutCG clang19;
     clang20nocg = withoutCG clang20;
+
+    clang19nocg_taildup = withTailDup clang19nocg;
+    clang19nocg_gh114990 = withoutCG clang19_gh114990;
 
     clang19TC = withTC clang19;
     clang20TC = withTC clang20;
