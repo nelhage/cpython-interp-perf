@@ -2,9 +2,9 @@
 set -eu
 
 buildname=$1; shift
-cd $(dirname "$0")
+cd $(dirname "$0")/../
 
-build=$(nix build --print-out-paths --no-link .#pybuilds."$buildname")
+build=$(bin/get-build "$buildname")
 base=$(basename "$build")
 
 output="runs/${buildname}-${base}.json"
