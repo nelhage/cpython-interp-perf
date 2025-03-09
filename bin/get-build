@@ -2,4 +2,4 @@
 set -eu
 here=$(dirname "$0")
 name=$1
-exec nix build --no-link --print-out-paths ".#pybuilds.$name"
+exec nix build --no-link --print-out-paths ".#python.$name"
